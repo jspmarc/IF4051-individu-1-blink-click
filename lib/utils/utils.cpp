@@ -37,8 +37,8 @@ void mqtt_reconnect(PubSubClient &client)
 		Serial.println("Connecting to MQTT broker...");
 		if (client.connect(MQTT_ID))
 		{
-			client.subscribe(MQTT_TOPIC);
-			Serial.printf("MQTT connected and subscribed to %s\r\n", MQTT_TOPIC);
+			client.subscribe(MQTT_IN_TOPIC);
+			Serial.printf("MQTT connected and subscribed to %s\r\n", MQTT_IN_TOPIC);
 		}
 		else
 		{

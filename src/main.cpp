@@ -40,6 +40,17 @@ void loop()
 	if (now_sec % 30 == 0)
 	{
 		digitalWrite(PIN_LED_BUILTIN, HIGH);
+
+		char payload[128];
+		sprintf(payload, "%d:%d", 13519164, 10);
+		if (client.publish(MQTT_OUT_TOPIC, payload))
+		{
+			Serial.printf("Published data to %s\r\n", MQTT_OUT_TOPIC);
+		}
+		else
+		{
+			Serial.printf("Can't publish data to %s\r\n", MQTT_OUT_TOPIC);
+		}
 	}
 	else
 	{

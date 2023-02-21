@@ -14,7 +14,8 @@
 
 #define MQTT_HOST "192.168.0.106"
 #define MQTT_PORT 1883
-#define MQTT_TOPIC "tugas-individu"
 #define MQTT_ID "esp32"
+#define MQTT_IN_TOPIC "in-tugas"
+#define MQTT_OUT_TOPIC "out-tugas"
 
 #endif//CONSTANTS_H
