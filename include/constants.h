@@ -8,6 +8,7 @@
 #include <cstdint>
 
 #define PIN_LED_BUILTIN 2
+#define LED_CHANNEL 0
 
 #define WIFI_SSID "tomat"
 #define WIFI_PASSWORD "23101977"

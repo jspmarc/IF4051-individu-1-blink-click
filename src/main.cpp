@@ -11,12 +11,15 @@ void setup()
 {
 	Serial.begin(115200);
 
-	pinMode(PIN_LED_BUILTIN, OUTPUT);
+	ledcAttachPin(PIN_LED_BUILTIN, LED_CHANNEL);
+	ledcSetup(LED_CHANNEL, 5000, 8);
 
-	delay(1000);
+	delay(500);
 	wifi_setup();
-	delay(1000);
+	delay(500);
 	mqtt_setup(client);
+	delay(500);
+	ledcWrite(LED_CHANNEL, 10);
 }
 
 void loop()
@@ -37,9 +40,14 @@ void loop()
 	Serial.printf("Hi %llu\r\n", now_sec);
 	prev_time = now;
 
-	if (now_sec % 30 == 0)
+	if (now_sec % 10 == 0)
 	{
-		digitalWrite(PIN_LED_BUILTIN, HIGH);
+		for (int cycle = 0; cycle <= 255; cycle += 5)
+		{
+			Serial.printf("Increasing LED brightness (%d)...\r\n", cycle);
+			ledcWrite(LED_CHANNEL, cycle);
+			delay(50);
+		}
 
 		char payload[128];
 		sprintf(payload, "%d:%d", 13519164, 10);
@@ -52,8 +60,13 @@ void loop()
 			Serial.printf("Can't publish data to %s\r\n", MQTT_OUT_TOPIC);
 		}
 	}
-	else
+	else if (now_sec % 5 == 0)
 	{
-		digitalWrite(PIN_LED_BUILTIN, LOW);
+		for (int cycle = 255; cycle >= 0; cycle -= 5)
+		{
+			Serial.printf("Decreasing LED brightness (%d)...\r\n", cycle);
+			ledcWrite(LED_CHANNEL, cycle);
+			delay(50);
+		}
 	}
 }
