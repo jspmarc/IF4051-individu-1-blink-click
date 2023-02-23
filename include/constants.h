@@ -8,7 +8,7 @@
 #include <cstdint>
 
 #define PIN_LED_BUILTIN 2
-#define PIN_GPIO0 0
+#define PIN_BUTTON 0
 #define LED_CHANNEL 0
 
 #define WIFI_SSID "tomat"

@@ -32,24 +32,22 @@ void loop()
 	client.loop();
 
 	uint64_t now = millis();
-	if (now - prev_time < 1000)
+	if (now - prev_time < 100)
 	{
 		return;
 	}
-
-	uint64_t now_sec = now / 1000;
-	Serial.printf("Hi %llu\r\n", now_sec);
 	prev_time = now;
 
-	if (now_sec % 10 == 0)
+	int button_state = digitalRead(PIN_BUTTON);
+	if (button_state == LOW)
 	{
-		for (int cycle = 0; cycle <= 255; cycle += 5)
-		{
-			Serial.printf("Increasing LED brightness (%d)...\r\n", cycle);
-			ledcWrite(LED_CHANNEL, cycle);
-			delay(50);
-		}
+		handle_button_pressed(&led_frequency);
+		Serial.printf("LED freq: %d\r\n", led_frequency);
+	}
 
+	if ((now / 1000) % 5 == 0)
+	{
+		Serial.printf("%d    |    ", now);
 		if (mqtt_publish(client, led_frequency))
 		{
 			Serial.println("Published data");
@@ -57,15 +55,6 @@ void loop()
 		else
 		{
 			Serial.println("Can't publish data");
-		}
-	}
-	else if (now_sec % 5 == 0)
-	{
-		for (int cycle = 255; cycle >= 0; cycle -= 5)
-		{
-			Serial.printf("Decreasing LED brightness (%d)...\r\n", cycle);
-			ledcWrite(LED_CHANNEL, cycle);
-			delay(50);
 		}
 	}
 }

@@ -49,10 +49,10 @@ void mqtt_reconnect(PubSubClient &client)
 	}
 }
 
-bool mqtt_publish(PubSubClient &client, uint16_t led_frequency)
+bool mqtt_publish(PubSubClient &client, uint8_t led_frequency)
 {
 	char payload[15];
-	sprintf(payload, "13519164:%d", 10);
+	sprintf(payload, "13519164:%d", led_frequency);
 	return client.publish(MQTT_OUT_TOPIC, payload);
 }
 
@@ -64,4 +64,15 @@ void __mqtt_callback(char *topic, uint8_t *payload, unsigned int length)
 		Serial.print((char) payload[i]);
 	}
 	Serial.println();
+}
+
+void handle_button_pressed(uint16_t *led_frequency)
+{
+	if (*led_frequency >= 255)
+	{
+		*led_frequency = -1;
+	}
+
+	(*led_frequency)++;
+	ledcWrite(LED_CHANNEL, *led_frequency);
 }
