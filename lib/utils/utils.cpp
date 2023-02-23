@@ -49,6 +49,13 @@ void mqtt_reconnect(PubSubClient &client)
 	}
 }
 
+bool mqtt_publish(PubSubClient &client, uint16_t led_frequency)
+{
+	char payload[15];
+	sprintf(payload, "13519164:%d", 10);
+	return client.publish(MQTT_OUT_TOPIC, payload);
+}
+
 void __mqtt_callback(char *topic, uint8_t *payload, unsigned int length)
 {
 	Serial.printf("Message from %s: ", topic);
