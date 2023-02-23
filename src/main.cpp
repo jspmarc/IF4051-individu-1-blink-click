@@ -4,6 +4,7 @@
 #include <WiFi.h>
 
 uint64_t prev_time = 0;
+uint64_t prev_sec = 0;
 uint16_t led_frequency = 10;
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
@@ -32,6 +33,7 @@ void loop()
 	client.loop();
 
 	uint64_t now = millis();
+	uint64_t now_sec = now / 1000;
 	if (now - prev_time < 100)
 	{
 		return;
@@ -45,7 +47,7 @@ void loop()
 		Serial.printf("LED freq: %d\r\n", led_frequency);
 	}
 
-	if ((now / 1000) % 5 == 0)
+	if (prev_sec != now_sec && now_sec % 5 == 0)
 	{
 		Serial.printf("%d    |    ", now);
 		if (mqtt_publish(client, led_frequency))
@@ -57,4 +59,6 @@ void loop()
 			Serial.println("Can't publish data");
 		}
 	}
+
+	prev_sec = now_sec;
 }
