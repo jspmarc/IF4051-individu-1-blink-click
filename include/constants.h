@@ -7,9 +7,9 @@
 
 #include <cstdint>
 
-#define PIN_LED_BUILTIN 2
-#define PIN_BUTTON 0
-#define LED_CHANNEL 0
+const uint8_t PIN_LED_BUTILIN = 2;
+const uint8_t PIN_BUTTON = 0;
+const uint8_t LED_CHANNEL = 0;
 
 #define WIFI_SSID "tomat"
 #define WIFI_PASSWORD "23101977"
